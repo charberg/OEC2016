@@ -24,8 +24,6 @@ public class CandyInterpreter {
 		return String.join("", Collections.nCopies(tabIndex, "/t"));
 	}
 	
-}
-	
 	public void writeNewVariable(String varName, String value) {
 		writeToFile(varName + " = " + value);
 	}
@@ -37,6 +35,7 @@ public class CandyInterpreter {
 	public void writeEquals(String varName1, String varName2) {
 		writeToFile("if " + varName1 + " == " + varName2 + ":");
 		tabIndex++;
+	}
 
 	public void runCode(){
 		ProcessBuilder pythonCode = new ProcessBuilder("python", OUTPUTFILE);
