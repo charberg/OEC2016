@@ -47,7 +47,7 @@ public class FunctionalButtonListener implements ActionListener{
 			String input1 = (String)JOptionPane.showInputDialog(view, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
 			if(input1 == null) return;
 			
-			String input2 = (String)JOptionPane.showInputDialog(view, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
+			String input2 = (String)JOptionPane.showInputDialog(view, "What variable do you want to compare with "+ input1 + "?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
 			if(input2 == null) return;
 			
 			view.candyint.writeEquals(input1, input2);
@@ -60,7 +60,7 @@ public class FunctionalButtonListener implements ActionListener{
 		}
 		else if(src.getText().equals(View.StartLoopButtonString))
 		{
-			Integer input1 = Integer.parseInt((String)JOptionPane.showInputDialog(view, "How many times do you want to loop?:", "Variable Value", JOptionPane.PLAIN_MESSAGE));
+			Integer input1 = Integer.parseInt((String)JOptionPane.showInputDialog(view, "How many times do you want to loop?:", "Loop", JOptionPane.PLAIN_MESSAGE));
 			if(input1 == null) return;
 			
 			view.candyint.writeWhile(input1);
@@ -91,7 +91,7 @@ public class FunctionalButtonListener implements ActionListener{
 		}
 		else if(src.getText().equals(View.PrintButtonString))
 		{
-			String input1 = (String)JOptionPane.showInputDialog(view, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
+			String input1 = (String)JOptionPane.showInputDialog(view, "What variable do you want to print?:", "Print", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
 			if(input1 == null) return;
 			
 			view.candyint.printVariable(input1);
@@ -99,7 +99,7 @@ public class FunctionalButtonListener implements ActionListener{
 		}
 		else if(src.getText().equals(View.CallFunctionButtonString))
 		{
-			String input1 = (String)JOptionPane.showInputDialog(view, "What function do you want to call?:", "Input", JOptionPane.PLAIN_MESSAGE, null, functionList.toArray(), "");
+			String input1 = (String)JOptionPane.showInputDialog(view, "What function do you want to call?:", "Function call", JOptionPane.PLAIN_MESSAGE, null, functionList.toArray(), "");
 			if(input1 == null) return;
 			
 			view.candyint.callFunction(input1);

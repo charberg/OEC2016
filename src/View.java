@@ -246,6 +246,13 @@ public class View extends JFrame{
 		setVisible(true);
 	}
 	
+	private void setupStoryPage()
+	{
+		JPanel panel = new JPanel();
+		
+		
+	}
+	
 	public void changePanel(PanelPage newPanel)
 	{
 		switch(newPanel)
