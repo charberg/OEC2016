@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,26 +7,26 @@ import java.util.HashMap;
 public class ChapterTester {
 
 	private HashMap<String, String> variables;
-	private HashMap<String, Integer> functions;	//Int represents number of variables
+	private ArrayList<String> functions;	//Int represents number of variables
 	
 	private HashMap<String, String> variableTests;
-	private HashMap<String, String> functionNameTests;
+	private ArrayList<String> functionNameTests;
 
 	
 	public ChapterTester() {
 		
 		variables = new HashMap<String, String>();
-		functions = new HashMap<String, Integer>();
+		functions = new ArrayList<String>();
 		
 		variableTests = new HashMap<String, String>();
-		functionNameTests = new HashMap<String, String>();
+		functionNameTests = new ArrayList<String>();
 		
 	}
 	
 	public void setVariables(HashMap<String, String> variables) {
 		this.variables = variables;
 	}
-	public void setFunctions(HashMap<String, Integer> functions) {
+	public void setFunctions(ArrayList<String> functions) {
 		this.functions = functions;
 	}
 	
@@ -37,25 +38,27 @@ public class ChapterTester {
 		variableTests.remove(varName);
 	}
 	
-	public void addFunctionNameTest(String functionName, String expectedValue) {
-		functionNameTests.put(functionName, expectedValue);
+	public void addFunctionNameTest(String functionName) {
+		functionNameTests.add(functionName);
 	}
 	
 	public void removeFunctionNameTest(String functionName) {
 		functionNameTests.remove(functionName);
 	}
 	
-	public boolean printTest(String output) {
-		String[] outputLines = output.split("\n");
-		if(Arrays.asList(outputLines).contains(output)) {
+	public boolean printTest(String programOutput, String expectedOutput) {
+		String[] outputLines = programOutput.split("\n");
+		if(Arrays.asList(outputLines).contains(expectedOutput)) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean printMultipleTimesTest(String output, int numberOfTimes) {
-		String[] outputLines = output.split("\n");
-		if(Collections.frequency(Arrays.asList(outputLines), output) < numberOfTimes) {
+	public boolean printMultipleTimesTest(String programOutput, String expectedOutput, int numberOfTimes) {
+		String[] outputLines = programOutput.split("\n");
+		int freq = Collections.frequency(Arrays.asList(outputLines), expectedOutput);
+		System.out.println(freq);
+		if(freq < numberOfTimes) {
 			return false;
 		}
 		return true;
@@ -63,13 +66,13 @@ public class ChapterTester {
 	
 	public boolean runTests() {
 		for(String testVar : variableTests.keySet()) {
-			if(!variables.containsKey(testVar) || !variables.get(testVar).equals(variableTests.get(testVar))) {
+			if(!variables.containsKey(testVar) || !(variables.get(testVar).equals(variableTests.get(testVar)))) {
 				return false;
 			}
 		}
 		
-		for(String testVar : functionNameTests.keySet()) {
-			if(!functions.containsKey(testVar)) {
+		for(String testVar : functionNameTests) {
+			if(!functions.contains(testVar)) {
 				return false;
 			}
 		}

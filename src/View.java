@@ -12,8 +12,10 @@ public class View extends JFrame{
 	private JTextArea currentTextArea;
 	private JTextArea currentResultsArea;
 	private String textPanelModifier;
+	private ChapterTester tester;
 	public CandyInterpreter candyint;
 	public PanelPage currentPanelEnum;
+	
 	
 	public static final String VariableButtonString = "Variable";
 	public static final String StartIfButtonString = "Start If";
@@ -80,6 +82,9 @@ public class View extends JFrame{
 		this.add(currentPanel);
 		
 		setVisible(true);
+		
+		tester = new ChapterTester();
+		
 	}
 	
 	private void setupOptionsPanel()

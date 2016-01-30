@@ -66,7 +66,7 @@ public class CandyInterpreter {
 	}
 
 	public String runCode(){
-		this.writeToFile("print \"success\"");
+		this.writeToFile("print(\"success\")");
 		ProcessBuilder pythonCode = new ProcessBuilder("python", OUTPUTFILE);
 		Process python = null;
 		String input = "";
@@ -92,7 +92,7 @@ public class CandyInterpreter {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return "No output";
 	}
 	
 	public void endIf() {
