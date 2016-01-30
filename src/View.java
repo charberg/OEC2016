@@ -7,7 +7,8 @@ import javax.swing.*;
 public class View extends JFrame{
 	
 	private JPanel currentPanel;
-	private JTextField currentTextField;
+	private JTextArea currentTextArea;
+	private String textPanelModifier;
 	
 	public static final String VariableButtonString = "Variable";
 	public static final String StartIfButtonString = "Start If";
@@ -33,11 +34,18 @@ public class View extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Candy - The Sweetest Programming Language For Kids!");
 		
+		try { 
+		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		
 		variableList = new ArrayList<String>();
+		textPanelModifier = "";
 		
 		currentPanel = new JPanel();
-		currentTextField = new JTextField();
-		currentTextField.enableInputMethods(false);
+		currentTextArea = new JTextArea();
+		currentTextArea.enableInputMethods(false);
 		
 		setupPage1();
 		this.add(currentPanel);
@@ -82,10 +90,10 @@ public class View extends JFrame{
 		JPanel page1 = new JPanel();
 		page1.setLayout(new BorderLayout());
 		
-		currentTextField = new JTextField();
-		currentTextField.enableInputMethods(false);
+		currentTextArea = new JTextArea();
+		currentTextArea.enableInputMethods(false);
 		
-		page1.add(BorderLayout.CENTER, currentTextField);
+		page1.add(BorderLayout.CENTER, currentTextArea);
 		
 		JButton varButton = new JButton(VariableButtonString);
 		varButton.addActionListener(new FunctionalButtonListener(this));
@@ -122,7 +130,6 @@ public class View extends JFrame{
 		bottomPannel.add(startFunctionButton);
 		bottomPannel.add(endFunctionButton);
 		
-		
 		page1.add(BorderLayout.SOUTH, bottomPannel);
 		
 		switchPanel(page1);
@@ -131,41 +138,66 @@ public class View extends JFrame{
 	
 	public void insertVariable()
 	{
-		String input = (String)JOptionPane.showInputDialog(this, "Please enter the name of your candy:", JOptionPane.PLAIN_MESSAGE);
-		currentTextField.setText(currentTextField.getText() + "candy " + input + " ");
+		boolean stopLoop = false;
+		String input = null;
+		
+		while(!stopLoop)
+		{
+			input = (String)JOptionPane.showInputDialog(this, "Please enter the name of your candy:", "New Variable", JOptionPane.PLAIN_MESSAGE);
+			if(!Character.isDigit(input.charAt(0)) && !variableList.contains(input))
+			{
+				stopLoop = true;
+			}
+		}
+		
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "candy " + input + " \n\n");
 		variableList.add(input);
+	}
+	
+	private boolean isAlphaNumeric(String input)
+	{
+		boolean status = false;
+		
+		return status;
 	}
 	
 	public void insertStartIf()
 	{
-		String input1 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), variableList.get(0));
-		String input2 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "ham");
-		currentTextField.setText(currentTextField.getText() + "IF "+input1+" IS EQUAL TO "+input2+" ");
+
+		String input1 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
+		String input2 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "IF "+input1+" IS EQUAL TO " + input2 + "\n\n");
+		textPanelModifier += "\t";
 	}
 	
 	public void insertEndIf()
 	{
-		currentTextField.setText(currentTextField.getText() + "END IF ");
+		textPanelModifier = textPanelModifier.substring(0,textPanelModifier.length()-1);
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END IF \n\n");
 	}
 	
 	public void insertStartLoop()
 	{
-		currentTextField.setText(currentTextField.getText() + "START LOOP ");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "START LOOP ");
+		textPanelModifier += "\t";
 	}
 	
 	public void insertEndLoop()
 	{
-		currentTextField.setText(currentTextField.getText() + "END LOOP ");
+		textPanelModifier = textPanelModifier.substring(0,textPanelModifier.length()-1);
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END LOOP \n\n");
 	}
 	
 	public void insertStartFunction()
 	{
-		currentTextField.setText(currentTextField.getText() + "START FUNCTION ");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "START FUNCTION ");
+		textPanelModifier += "\t";
 	}
 	
 	public void insertEndFunction()
 	{
-		currentTextField.setText(currentTextField.getText() + "END FUNCTION ");
+		textPanelModifier = textPanelModifier.substring(0,textPanelModifier.length()-1);
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END FUNCTION \n\n");
 	}
 	
 	private void switchPanel(JPanel panel)
