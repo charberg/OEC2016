@@ -45,14 +45,6 @@ public class chapterTester {
 		functionNameTests.remove(functionName);
 	}
 	
-	public void addFunctionArgsTest(String functionName, int expectedNumberOfArgs) {
-		functionArgTests.put(functionName, new Integer(expectedNumberOfArgs));
-	}
-	
-	public void removeFunctionArgsTest(String functionName) {
-		functionArgTests.remove(functionName);
-	}
-	
 	public boolean printTest(String output) {
 		String[] outputLines = output.split("\n");
 		if(Arrays.asList(outputLines).contains(output)) {
