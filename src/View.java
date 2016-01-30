@@ -37,7 +37,13 @@ public class View extends JFrame{
 	{
 		OPTIONS,
 		PAGE1,
-		STORY1
+		PAGE2,
+		PAGE3,
+		PAGE4,
+		PAGE5,
+		PAGE6,
+		PAGE7,
+		PAGE8
 	}
 	
 	public View()
@@ -83,7 +89,7 @@ public class View extends JFrame{
 		currentResultsArea = new JTextArea();
 		currentResultsArea.setEditable(false);
 		
-		setupPage1();
+		changePanel(PanelPage.PAGE1);
 		this.add(currentPanel);
 		
 		setVisible(true);
@@ -101,8 +107,10 @@ public class View extends JFrame{
 		
 	}
 	
-	private void setupPage1()
+	private void setupLevelPanel()
 	{
+		UIManager.put("control", new Color(200,200,255));
+		
 		JPanel page1 = new JPanel();
 		page1.setLayout(new BorderLayout());
 		
@@ -274,6 +282,9 @@ public class View extends JFrame{
 	
 	private void setupStoryPage(String imgPath)
 	{
+		
+		UIManager.put("control", new Color(255,255,255));
+		
 		JPanel panel = new JPanel();
 		
 		panel.setLayout(new BorderLayout());
@@ -307,15 +318,39 @@ public class View extends JFrame{
 				currentPanelEnum = PanelPage.OPTIONS;
 				break;
 			case PAGE1:
-				setupPage1();
+				setupStoryPage("pictures/Intro.jpg");
 				currentPanelEnum = PanelPage.PAGE1;
 				break;
-			case STORY1:
+			case PAGE2:
+				setupStoryPage("pictures/Chapter 1 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE2;
+				break;
+			case PAGE3:
 				setupStoryPage("pictures/Chapter 1 Next.jpg");
-				currentPanelEnum = PanelPage.STORY1;
+				currentPanelEnum = PanelPage.PAGE3;
+				break;
+			case PAGE4:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE4;
+				break;
+			case PAGE5:
+				setupStoryPage("pictures/Chapter 2 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE5;
+				break;
+			case PAGE6:
+				setupStoryPage("pictures/Chapter 2 Next.jpg");
+				currentPanelEnum = PanelPage.PAGE6;
+				break;
+			case PAGE7:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE7;
+				break;
+			case PAGE8:
+				setupStoryPage("pictures/Chapter 3 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE8;
 				break;
 			default:
-				setupPage1();
+				setupLevelPanel();
 				currentPanelEnum = PanelPage.PAGE1;
 		}
 	}

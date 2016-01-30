@@ -111,11 +111,57 @@ public class FunctionalButtonListener implements ActionListener{
 		}
 		else if(src.getText().equals(View.BackButtonString))
 		{
-			view.changePanel(View.PanelPage.PAGE1);
+			switch(view.currentPanelEnum)
+			{
+				case PAGE2:
+					view.changePanel(View.PanelPage.PAGE1);
+					break;
+				case PAGE3:
+					view.changePanel(View.PanelPage.PAGE2);
+					break;
+				case PAGE4:
+					view.changePanel(View.PanelPage.PAGE3);
+					break;
+				case PAGE5:
+					view.changePanel(View.PanelPage.PAGE4);
+					break;
+				case PAGE6:
+					view.changePanel(View.PanelPage.PAGE5);
+					break;
+				case PAGE7:
+					view.changePanel(View.PanelPage.PAGE6);
+					break;
+				case PAGE8:
+					view.changePanel(View.PanelPage.PAGE7);
+					break;
+			}
 		}
 		else if(src.getText().equals(View.NextButtonString))
 		{
-			view.changePanel(View.PanelPage.STORY1);
+			switch(view.currentPanelEnum)
+			{
+				case PAGE1:
+					view.changePanel(View.PanelPage.PAGE2);
+					break;
+				case PAGE2:
+					view.changePanel(View.PanelPage.PAGE3);
+					break;
+				case PAGE3:
+					view.changePanel(View.PanelPage.PAGE4);
+					break;
+				case PAGE4:
+					view.changePanel(View.PanelPage.PAGE5);
+					break;
+				case PAGE5:
+					view.changePanel(View.PanelPage.PAGE6);
+					break;
+				case PAGE6:
+					view.changePanel(View.PanelPage.PAGE7);
+					break;
+				case PAGE7:
+					view.changePanel(View.PanelPage.PAGE8);
+					break;
+			}
 		}
 		else
 		{
