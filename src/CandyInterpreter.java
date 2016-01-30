@@ -37,9 +37,10 @@ public class CandyInterpreter {
 		tabIndex++;
 	}
 
-	public void runCode(){
+	public String runCode(){
 		ProcessBuilder pythonCode = new ProcessBuilder("python", OUTPUTFILE);
 		Process python = null;
+		String input = "";
 		try {
 			python = pythonCode.start();
 		} catch (IOException e) {
@@ -47,14 +48,13 @@ public class CandyInterpreter {
 		}
 		if (python != null){
 			BufferedReader in = new BufferedReader(new InputStreamReader(python.getInputStream()));
-			String input = "";
 			try {
 				input = in.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Value returned is: " + input);
 		}
+		return input;
 	}
 	
 	public void endIf() {
