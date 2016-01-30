@@ -8,7 +8,6 @@ public class chapterTester {
 	
 	private HashMap<String, String> variableTests;
 	private HashMap<String, String> functionNameTests;
-	private HashMap<String, Integer> functionArgTests;
 
 	
 	public chapterTester() {
@@ -18,7 +17,6 @@ public class chapterTester {
 		
 		variableTests = new HashMap<String, String>();
 		functionNameTests = new HashMap<String, String>();
-		functionArgTests = new HashMap<String, Integer>();
 		
 	}
 	
@@ -45,14 +43,6 @@ public class chapterTester {
 		functionNameTests.remove(functionName);
 	}
 	
-	public void addFunctionArgsTest(String functionName, int expectedNumberOfArgs) {
-		functionArgTests.put(functionName, new Integer(expectedNumberOfArgs));
-	}
-	
-	public void removeFunctionArgsTest(String functionName) {
-		functionArgTests.remove(functionName);
-	}
-	
 	public boolean runTests() {
 		for(String testVar : variableTests.keySet()) {
 			if(!variables.containsKey(testVar) || !variables.get(testVar).equals(variableTests.get(testVar))) {
@@ -66,11 +56,6 @@ public class chapterTester {
 			}
 		}
 		
-		for(String testVar : variableTests.keySet()) {
-			if(!variables.containsKey(testVar) || !(functions.get(testVar) == (functionArgTests.get(testVar)))) {
-				return false;
-			}
-		}
 		
 		return true;
 		
