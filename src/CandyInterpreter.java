@@ -1,13 +1,20 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class CandyInterpreter {
 	public static String OUTPUTFILE = "output.py";
 	
 	private int tabIndex = 0;
+	private HashMap<String, String> variables;
+	private HashMap<String, Integer> functions;	//Int represents number of variables
 
 	public CandyInterpreter() {
+		
+		variables = new HashMap<String, String>();
+		functions = new HashMap<String, Integer>();
+		
 		//Wipe the existing output file
 		File file = new File(OUTPUTFILE);
 		BufferedWriter writer = null;
@@ -36,8 +43,17 @@ public class CandyInterpreter {
 		return String.join("", Collections.nCopies(tabIndex, "\t"));
 	}
 	
-	public void writeNewVariable(String varName, String value) {
-		writeToFile(varName + " = \"" + value + "\"");
+	public boolean writeNewVariable(String varName, String value) {
+		if(variables.containsKey(varName)) {
+			return false;
+		}
+		else {
+			variables.put(varName, value);
+			writeToFile(varName + " = \"" + value + "\"");
+			
+			return true;
+		
+		}
 	}
 	
 	public void printVariable(String varName) {
@@ -88,7 +104,14 @@ public class CandyInterpreter {
 		tabIndex--;
 	}
 	
-	public void writeFunction(String functionName, ArrayList<String> variables) {
+	public boolean writeFunction(String functionName, ArrayList<String> variables) {
+		
+		if(functionName.contains(functionName)) {	//Do not allow over-writing functions
+			return false;
+		}
+		
+		functions.put(functionName, variables.size());
+		
 		String vars = "";
 		if(variables != null) {
 			vars = variables.toString().substring(1, variables.size() - 1);
@@ -96,6 +119,8 @@ public class CandyInterpreter {
 		
 		writeToFile("def " + functionName + "(" + vars + ") :");
 		tabIndex++;
+		
+		return false;
 		
 	}
 	
@@ -117,6 +142,13 @@ public class CandyInterpreter {
 		writeToFile("#" + comment);
 	}
 	
+	public HashMap<String, String> getVariables() {
+		return variables;
+	}
+	
+	public HashMap<String, Integer> getFunctions() {
+		return functions;
+	}
 	
 	public static void main(String args[]) {
 		
