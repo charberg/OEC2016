@@ -70,7 +70,20 @@ public class CandyInterpreter {
 		tabIndex--;
 	}
 	
-
+	public void writeFunction(String functionName, ArrayList<String> variables) {
+		
+		writeToFile("def " + functionName + "(" + variables.toString().substring(1, variables.size() - 1) + ") :");
+		tabIndex++;
+		
+	}
+	
+	public void endFunction() {
+		tabIndex--;
+	}
+	
+	public void writeComment(String comment) {
+		writeToFile("#" + comment);
+	}
 	
 	
 	
