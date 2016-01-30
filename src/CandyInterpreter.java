@@ -150,27 +150,5 @@ public class CandyInterpreter {
 		return functions;
 	}
 	
-	public static void main(String args[]) {
-		
-		CandyInterpreter ci = new CandyInterpreter();
-		ci.writeNewVariable("CandyDaniel", "SuckMyAss");
-		ci.writeNewVariable("Blowfish", "SuckMyAss");
-		ci.writeEquals("CandyDaniel", "Blowfish");
-		ci.printVariable("CandyDaniel");
-		ci.endIf();
-		ci.writeWhile(5);
-		ci.printVariable("CandyDaniel");
-		ci.endWhile();
-		ci.writeFunction("eatCandy", null);
-		ci.writeNewVariable("David", "Rookly");
-		ci.printVariable("David");
-		ci.endFunction();
-		ci.callFunction("eatCandy", null);
-		
-		
-		System.out.println(ci.runCode());
-
-	}
-	
 	
 }
