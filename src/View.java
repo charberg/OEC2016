@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -10,13 +11,14 @@ public class View extends JFrame{
 	private JPanel currentPanel;
 	private JTextArea currentTextArea;
 	private String textPanelModifier;
+	public CandyInterpreter candyint;
 	
 	public static final String VariableButtonString = "Variable";
 	public static final String StartIfButtonString = "Start If";
 	public static final String EndIfButtonString = "End If";
 	public static final String StartLoopButtonString = "Start Loop";
 	public static final String EndLoopButtonString = "End Loop";
-	public static final String IsEqualButtonString = "Is Equal";
+	public static final String runButtonString = "Run";
 	public static final String StartFunctionButtonString = "Start Function";
 	public static final String EndFunctionButtonString = "End Function";
 	
@@ -24,7 +26,6 @@ public class View extends JFrame{
 	
 	public enum PanelPage
 	{
-		DEFAULT,
 		OPTIONS,
 		PAGE1
 	}
@@ -55,38 +56,23 @@ public class View extends JFrame{
 	            break;
 	        }
 	    }
+		UIManager.put("control", new Color(200,200,255));
+		UIManager.put("nimbusBase", new Color(255,0,0));
+		UIManager.put("TextArea.font", new Font("segoe print", Font.BOLD, 14));
 		
 		variableList = new ArrayList<String>();
 		textPanelModifier = "";
 		
+		candyint = new CandyInterpreter();
+		
 		currentPanel = new JPanel();
 		currentTextArea = new JTextArea();
-		currentTextArea.enableInputMethods(false);
+		currentTextArea.setEditable(false);
 		
 		setupPage1();
 		this.add(currentPanel);
 		
 		setVisible(true);
-	}
-	
-	private void setupDefaultPanel()
-	{
-		
-		JPanel defaultPanel = new JPanel();
-		defaultPanel.setLayout(new BorderLayout());
-		
-		JButton button1 = new JButton("Options");
-		button1.setBounds(30,30,30,30);
-		
-		JLabel label1 = new JLabel("NO CONTENT");
-		
-		ButtonListener listener1 = new ButtonListener(this);
-		button1.addActionListener(listener1);
-		
-		defaultPanel.add(BorderLayout.SOUTH, button1);
-		defaultPanel.add(BorderLayout.NORTH, label1);
-		
-		switchPanel(defaultPanel);
 	}
 	
 	private void setupOptionsPanel()
@@ -107,7 +93,7 @@ public class View extends JFrame{
 		page1.setLayout(new BorderLayout());
 		
 		currentTextArea = new JTextArea();
-		currentTextArea.enableInputMethods(false);
+		currentTextArea.setEditable(false);
 		
 		page1.add(BorderLayout.CENTER, currentTextArea);
 		
@@ -126,8 +112,8 @@ public class View extends JFrame{
 		JButton endLoopButton = new JButton(EndLoopButtonString);
 		endLoopButton.addActionListener(new FunctionalButtonListener(this));
 		
-		JButton isEqualButton = new JButton(IsEqualButtonString);
-		isEqualButton.addActionListener(new FunctionalButtonListener(this));
+		JButton runButton = new JButton(runButtonString);
+		runButton.addActionListener(new FunctionalButtonListener(this));
 		
 		JButton startFunctionButton = new JButton(StartFunctionButtonString);
 		startFunctionButton.addActionListener(new FunctionalButtonListener(this));
@@ -142,9 +128,9 @@ public class View extends JFrame{
 		bottomPannel.add(endIfButton);
 		bottomPannel.add(startLoopButton);
 		bottomPannel.add(endLoopButton);
-		bottomPannel.add(isEqualButton);
 		bottomPannel.add(startFunctionButton);
 		bottomPannel.add(endFunctionButton);
+		bottomPannel.add(runButton);
 		
 		page1.add(BorderLayout.SOUTH, bottomPannel);
 		
@@ -152,22 +138,10 @@ public class View extends JFrame{
 		
 	}
 	
-	public void insertVariable()
+	public void insertVariable(String input1, String input2)
 	{
-		boolean stopLoop = false;
-		String input = null;
-		
-		while(!stopLoop)
-		{
-			input = (String)JOptionPane.showInputDialog(this, "Please enter the name of your candy:", "New Variable", JOptionPane.PLAIN_MESSAGE);
-			if(!Character.isDigit(input.charAt(0)) && !variableList.contains(input))
-			{
-				stopLoop = true;
-			}
-		}
-		
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "candy " + input + " \n\n");
-		variableList.add(input);
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "candy " + input1 + " = " + input2 + "\n\n");
+		variableList.add(input1);
 	}
 	
 	private boolean isAlphaNumeric(String input)
@@ -177,13 +151,8 @@ public class View extends JFrame{
 		return status;
 	}
 	
-	public void insertStartIf()
+	public void insertStartIf(String input1, String input2)
 	{
-
-		String input1 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
-		
-		String input2 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
-		
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "IF "+input1+" IS EQUAL TO " + input2 + "\n\n");
 		textPanelModifier += "\t";
 	}
@@ -194,9 +163,9 @@ public class View extends JFrame{
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END IF \n\n");
 	}
 	
-	public void insertStartLoop()
+	public void insertStartLoop(int num)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "START LOOP ");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "LOOP " +  num + " TIMES\n\n");
 		textPanelModifier += "\t";
 	}
 	
@@ -218,6 +187,11 @@ public class View extends JFrame{
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END FUNCTION \n\n");
 	}
 	
+	public void runCode()
+	{
+		candyint.runCode();
+	}
+	
 	private void switchPanel(JPanel panel)
 	{
 		remove(currentPanel);
@@ -231,16 +205,14 @@ public class View extends JFrame{
 	{
 		switch(newPanel)
 		{
-			case DEFAULT:
-				setupDefaultPanel();
-				break;
 			case OPTIONS:
 				setupOptionsPanel();
 				break;
 			case PAGE1:
-				
+				setupPage1();
+				break;
 			default:
-				setupDefaultPanel();
+				setupPage1();
 		}
 	}
 	

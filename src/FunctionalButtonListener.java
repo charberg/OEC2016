@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -16,33 +17,88 @@ public class FunctionalButtonListener implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		JButton src = (JButton) arg0.getSource();
 		
-		//TODO Change this to be done on model not view
+		HashMap<String,String> variableList = view.candyint.getVariables();
+		
 		if(src.getText().equals(View.VariableButtonString))
 		{
-			view.insertVariable();
+			boolean stopLoop = false;
+			String input1 = null;
+			
+			while(!stopLoop)
+			{
+				input1 = (String)JOptionPane.showInputDialog(view, "Please enter the name of your candy:", "New Variable", JOptionPane.PLAIN_MESSAGE);
+				if(input1 == null) return;
+				
+				if(!Character.isDigit(input1.charAt(0)) && !variableList.containsKey(input1))
+				{
+					stopLoop = true;
+				}
+			}
+			
+			String input2 = (String)JOptionPane.showInputDialog(view, "What will be inside the variable?:", "Variable Value", JOptionPane.PLAIN_MESSAGE);
+			if(input2 == null) return;
+			
+			view.candyint.writeNewVariable(input1, input2);
+			view.insertVariable(input1, input2);
 		}
 		else if(src.getText().equals(View.StartIfButtonString))
 		{
-			view.insertStartIf();
+			String input1 = (String)JOptionPane.showInputDialog(view, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
+			if(input1 == null) return;
+			
+			String input2 = (String)JOptionPane.showInputDialog(view, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
+			if(input2 == null) return;
+			
+			view.candyint.writeEquals(input1, input2);
+			view.insertStartIf(input1, input2);
 		}
 		else if(src.getText().equals(View.EndIfButtonString))
 		{
+			view.candyint.endIf();
 			view.insertEndIf();
 		}
 		else if(src.getText().equals(View.StartLoopButtonString))
 		{
-			view.insertStartLoop();
+			Integer input1 = Integer.parseInt((String)JOptionPane.showInputDialog(view, "How many times do you want to loop?:", "Variable Value", JOptionPane.PLAIN_MESSAGE));
+			if(input1 == null) return;
+			
+			view.candyint.writeWhile(input1);
+			view.insertStartLoop(input1);
 		}
 		else if(src.getText().equals(View.EndLoopButtonString))
 		{
+			view.candyint.endWhile();
 			view.insertEndLoop();
 		}
 		else if(src.getText().equals(View.StartFunctionButtonString))
 		{
+			String input1 = (String)JOptionPane.showInputDialog(view, "What do you want to name your adventure?:", "New Adventure", JOptionPane.PLAIN_MESSAGE);
+			if(input1 == null) return;
+			
+			Integer input2 = Integer.parseInt((String)JOptionPane.showInputDialog(view, "How many people are you bringing on your adventure?:", "", JOptionPane.PLAIN_MESSAGE));
+			if(input2 == null) return;
+			
+			ArrayList<String> args = new ArrayList<String>();
+			
+			for(int i=0; i < input2;i++)
+			{
+				String input = (String)JOptionPane.showInputDialog(view, "Who are you bringing on your adventure?:", "New Adventure", JOptionPane.PLAIN_MESSAGE);
+				if(input == null) return;
+				
+				args.add(input);
+			}
+			
+			view.candyint.writeFunction(input1, args);
 			view.insertStartFunction();
+		}
+		else if(src.getText().equals(View.runButtonString))
+		{
+			view.candyint.runCode();
+			view.runCode();
 		}
 		else if(src.getText().equals(View.EndFunctionButtonString))
 		{
+			view.candyint.endFunction();
 			view.insertEndFunction();
 		}
 		else
