@@ -1,12 +1,12 @@
 
 public class CandyInterpreter {
 
-	public void writeToFile() {
+	public void writeToFile(String input) {
 		
 	}
 	
-	public void writeVariable() {
-		
+	public void writeNewVariable(String varName) {
+		writeToFile(varName + " = ");
 	}
 	
 }
