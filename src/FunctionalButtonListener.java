@@ -18,6 +18,7 @@ public class FunctionalButtonListener implements ActionListener{
 		JButton src = (JButton) arg0.getSource();
 		
 		HashMap<String,String> variableList = view.candyint.getVariables();
+		ArrayList<String> functionList = view.candyint.getFunctions();
 		
 		if(src.getText().equals(View.VariableButtonString))
 		{
@@ -75,21 +76,8 @@ public class FunctionalButtonListener implements ActionListener{
 			String input1 = (String)JOptionPane.showInputDialog(view, "What do you want to name your adventure?:", "New Adventure", JOptionPane.PLAIN_MESSAGE);
 			if(input1 == null) return;
 			
-			Integer input2 = Integer.parseInt((String)JOptionPane.showInputDialog(view, "How many people are you bringing on your adventure?:", "", JOptionPane.PLAIN_MESSAGE));
-			if(input2 == null) return;
-			
-			ArrayList<String> args = new ArrayList<String>();
-			
-			for(int i=0; i < input2;i++)
-			{
-				String input = (String)JOptionPane.showInputDialog(view, "Who are you bringing on your adventure?:", "New Adventure", JOptionPane.PLAIN_MESSAGE);
-				if(input == null) return;
-				
-				args.add(input);
-			}
-			
-			view.candyint.writeFunction(input1, args);
-			view.insertStartFunction();
+			view.candyint.writeFunction(input1);
+			view.insertStartFunction(input1);
 		}
 		else if(src.getText().equals(View.runButtonString))
 		{
@@ -100,6 +88,26 @@ public class FunctionalButtonListener implements ActionListener{
 		{
 			view.candyint.endFunction();
 			view.insertEndFunction();
+		}
+		else if(src.getText().equals(View.PrintButtonString))
+		{
+			String input1 = (String)JOptionPane.showInputDialog(view, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.keySet().toArray(), "");
+			if(input1 == null) return;
+			
+			view.candyint.printVariable(input1);
+			view.insertPrint(input1);
+		}
+		else if(src.getText().equals(View.CallFunctionButtonString))
+		{
+			String input1 = (String)JOptionPane.showInputDialog(view, "What function do you want to call?:", "Input", JOptionPane.PLAIN_MESSAGE, null, functionList.toArray(), "");
+			if(input1 == null) return;
+			
+			view.candyint.callFunction(input1);
+			view.insertCallFunction(input1);
+		}
+		else if(src.getText().equals(View.RestartButtonString))
+		{
+			view.restartPanel();
 		}
 		else
 		{
