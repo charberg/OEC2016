@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 
-public class chapterTester {
+public class ChapterTester {
 
 	private HashMap<String, String> variables;
 	private HashMap<String, Integer> functions;	//Int represents number of variables
@@ -12,7 +12,7 @@ public class chapterTester {
 	private HashMap<String, String> functionNameTests;
 
 	
-	public chapterTester() {
+	public ChapterTester() {
 		
 		variables = new HashMap<String, String>();
 		functions = new HashMap<String, Integer>();
