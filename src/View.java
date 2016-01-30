@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class View extends JFrame{
 	
@@ -34,11 +35,26 @@ public class View extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Candy - The Sweetest Programming Language For Kids!");
 		
-		try { 
-		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+	        if ("Nimbus".equals(info.getName())) {
+	            try {
+					UIManager.setLookAndFeel(info.getClassName());
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedLookAndFeelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            break;
+	        }
+	    }
 		
 		variableList = new ArrayList<String>();
 		textPanelModifier = "";
@@ -165,7 +181,9 @@ public class View extends JFrame{
 	{
 
 		String input1 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
+		
 		String input2 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
+		
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "IF "+input1+" IS EQUAL TO " + input2 + "\n\n");
 		textPanelModifier += "\t";
 	}
