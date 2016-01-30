@@ -7,12 +7,24 @@ public class CandyInterpreter {
 	
 	private int tabIndex = 0;
 
-
-	public void writeToFile(String input) {
+	public CandyInterpreter() {
+		//Wipe the existing output file
 		File file = new File(OUTPUTFILE);
 		BufferedWriter writer = null;
 		try {
 			writer = new BufferedWriter(new FileWriter(file));
+			writer.write("");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeToFile(String input) {
+		File file = new File(OUTPUTFILE);
+		BufferedWriter writer = null;
+		try {
+			writer = new BufferedWriter(new FileWriter(file, true));
 			writer.write(constructTabs() + input + "\n");
 			if (writer != null) writer.close();
 		} catch (IOException e) {
@@ -21,11 +33,11 @@ public class CandyInterpreter {
 	}
 	
 	public String constructTabs() {
-		return String.join("", Collections.nCopies(tabIndex, "/t"));
+		return String.join("", Collections.nCopies(tabIndex, "\t"));
 	}
 	
 	public void writeNewVariable(String varName, String value) {
-		writeToFile(varName + " = " + value);
+		writeToFile(varName + " = \"" + value + "\"");
 	}
 	
 	public void printVariable(String varName) {
@@ -38,7 +50,7 @@ public class CandyInterpreter {
 	}
 
 	public String runCode(){
-		ProcessBuilder pythonCode = new ProcessBuilder("python", OUTPUTFILE);
+		ProcessBuilder pythonCode = new ProcessBuilder("python ", OUTPUTFILE);
 		Process python = null;
 		String input = "";
 		try {
@@ -49,7 +61,13 @@ public class CandyInterpreter {
 		if (python != null){
 			BufferedReader in = new BufferedReader(new InputStreamReader(python.getInputStream()));
 			try {
-				input = in.readLine();
+				String temp = "";
+				while(temp != null) {
+					temp = in.readLine();
+					if(temp != null) {
+						input = input + temp + "\n";
+					}
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -62,7 +80,7 @@ public class CandyInterpreter {
 	}
 	
 	public void writeWhile(int loops) {
-		writeToFile("for _ in range(" + loops + ")");
+		writeToFile("for _ in range(" + loops + ") :");
 		tabIndex++;
 	}
 	
@@ -71,8 +89,12 @@ public class CandyInterpreter {
 	}
 	
 	public void writeFunction(String functionName, ArrayList<String> variables) {
+		String vars = "";
+		if(variables != null) {
+			vars = variables.toString().substring(1, variables.size() - 1);
+		}
 		
-		writeToFile("def " + functionName + "(" + variables.toString().substring(1, variables.size() - 1) + ") :");
+		writeToFile("def " + functionName + "(" + vars + ") :");
 		tabIndex++;
 		
 	}
@@ -81,10 +103,42 @@ public class CandyInterpreter {
 		tabIndex--;
 	}
 	
+	public void callFunction(String functionName, ArrayList<String> variables) {
+		
+		String vars = "";
+		if(variables != null) {
+			vars = variables.toString().substring(1, variables.size() - 1);
+		}
+		
+		writeToFile(functionName + "(" + vars + ")");
+	}
+	
 	public void writeComment(String comment) {
 		writeToFile("#" + comment);
 	}
 	
+	
+	public static void main(String args[]) {
+		
+		CandyInterpreter ci = new CandyInterpreter();
+		ci.writeNewVariable("CandyDaniel", "SuckMyAss");
+		ci.writeNewVariable("Blowfish", "SuckMyAss");
+		ci.writeEquals("CandyDaniel", "Blowfish");
+		ci.printVariable("CandyDaniel");
+		ci.endIf();
+		ci.writeWhile(5);
+		ci.printVariable("CandyDaniel");
+		ci.endWhile();
+		ci.writeFunction("eatCandy", null);
+		ci.writeNewVariable("David", "Rookly");
+		ci.printVariable("David");
+		ci.endFunction();
+		ci.callFunction("eatCandy", null);
+		
+		
+		System.out.println(ci.runCode());
+
+	}
 	
 	
 }
