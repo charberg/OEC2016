@@ -66,7 +66,8 @@ public class CandyInterpreter {
 	}
 
 	public String runCode(){
-		ProcessBuilder pythonCode = new ProcessBuilder("python ", OUTPUTFILE);
+		this.writeToFile("print \"success\"");
+		ProcessBuilder pythonCode = new ProcessBuilder("python", OUTPUTFILE);
 		Process python = null;
 		String input = "";
 		try {
@@ -81,6 +82,9 @@ public class CandyInterpreter {
 				while(temp != null) {
 					temp = in.readLine();
 					if(temp != null) {
+						if (temp.equals("success")){
+							return input;
+						}
 						input = input + temp + "\n";
 					}
 				}
@@ -88,7 +92,7 @@ public class CandyInterpreter {
 				e.printStackTrace();
 			}
 		}
-		return input;
+		return null;
 	}
 	
 	public void endIf() {
@@ -149,6 +153,4 @@ public class CandyInterpreter {
 	public HashMap<String, Integer> getFunctions() {
 		return functions;
 	}
-	
-	
 }
