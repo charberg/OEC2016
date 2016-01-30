@@ -45,10 +45,6 @@ public class FunctionalButtonListener implements ActionListener{
 		{
 			view.insertEndFunction();
 		}
-		else if(src.getText().equals(View.IsEqualButtonString))
-		{
-			view.insertIsEqual();
-		}
 		else
 		{
 			System.out.println("Button error");

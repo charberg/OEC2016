@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -17,6 +18,8 @@ public class View extends JFrame{
 	public static final String StartFunctionButtonString = "Start Function";
 	public static final String EndFunctionButtonString = "End Function";
 	
+	private ArrayList<String> variableList;
+	
 	public enum PanelPage
 	{
 		DEFAULT,
@@ -27,10 +30,10 @@ public class View extends JFrame{
 	public View()
 	{
 		setSize(800,800);
-		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
 		setTitle("Candy - The Sweetest Programming Language For Kids!");
+		
+		variableList = new ArrayList<String>();
 		
 		currentPanel = new JPanel();
 		currentTextField = new JTextField();
@@ -129,12 +132,15 @@ public class View extends JFrame{
 	public void insertVariable()
 	{
 		String input = (String)JOptionPane.showInputDialog(this, "Please enter the name of your candy:", JOptionPane.PLAIN_MESSAGE);
-		currentTextField.setText(currentTextField.getText() + "candy "+input);
+		currentTextField.setText(currentTextField.getText() + "candy " + input + " ");
+		variableList.add(input);
 	}
 	
 	public void insertStartIf()
 	{
-		currentTextField.setText(currentTextField.getText() + "START IF ");
+		String input1 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), variableList.get(0));
+		String input2 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "ham");
+		currentTextField.setText(currentTextField.getText() + "IF "+input1+" IS EQUAL TO "+input2+" ");
 	}
 	
 	public void insertEndIf()
@@ -150,11 +156,6 @@ public class View extends JFrame{
 	public void insertEndLoop()
 	{
 		currentTextField.setText(currentTextField.getText() + "END LOOP ");
-	}
-	
-	public void insertIsEqual()
-	{
-		currentTextField.setText(currentTextField.getText() + "IS EQUAL ");
 	}
 	
 	public void insertStartFunction()
