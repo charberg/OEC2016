@@ -1,7 +1,7 @@
 =================================
 ||Read Me
 ||
-||Candy - The Sweet Programming Language For Kids
+||Candy - The Sweetest Programming Language For Kids
 ||
 ||Ontario Engineering Competition 2016 - Programming
 ||January 29, 2016
