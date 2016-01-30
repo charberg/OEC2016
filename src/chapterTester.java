@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -41,6 +43,30 @@ public class chapterTester {
 	
 	public void removeFunctionNameTest(String functionName) {
 		functionNameTests.remove(functionName);
+	}
+	
+	public void addFunctionArgsTest(String functionName, int expectedNumberOfArgs) {
+		functionArgTests.put(functionName, new Integer(expectedNumberOfArgs));
+	}
+	
+	public void removeFunctionArgsTest(String functionName) {
+		functionArgTests.remove(functionName);
+	}
+	
+	public boolean printTest(String output) {
+		String[] outputLines = output.split("\n");
+		if(Arrays.asList(outputLines).contains(output)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean printMultipleTimesTest(String output, int numberOfTimes) {
+		String[] outputLines = output.split("\n");
+		if(Collections.frequency(Arrays.asList(outputLines), output) < numberOfTimes) {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean runTests() {
