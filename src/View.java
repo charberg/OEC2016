@@ -253,7 +253,38 @@ public class View extends JFrame{
 	
 	public void runCode()
 	{
+		
+		switch(currentPanelEnum)
+		{
+			case PAGE4:
+				tester.addVariableTest("bonbon", "chocolate");
+				break;
+			case PAGE7:
+				tester.addVariableTest("bonbon", "chocolate");
+				tester.addVariableTest("truffle", "chocolate");
+				break;
+			
+		}
+		
 		String returnString = candyint.runCode();
+		tester.setVariables(candyint.getVariables());
+		tester.setFunctions(candyint.getFunctions());
+		//Test case for printing variables in chapter 1, page 4
+		if(currentPanelEnum.equals(PanelPage.PAGE4)) {
+			if(!tester.printTest(returnString, "chocolate")) {
+				//TODO warning for ch 1
+				System.out.println("NO PRINT CH 1");
+			}
+			
+		}
+		if(!tester.runTests()) {
+			//TODO Print warning code is incorrect
+			//De-grayscale button
+			System.out.println("WRONG");
+		}
+		
+		
+		
 		currentResultsArea.setText("Results: \n\n" + returnString);
 	}
 	
