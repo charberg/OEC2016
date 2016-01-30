@@ -21,17 +21,17 @@ public class View extends JFrame{
 	public PanelPage currentPanelEnum;
 	
 	
-	public static final String VariableButtonString = "Variable";
-	public static final String StartIfButtonString = "Start If";
-	public static final String EndIfButtonString = "End If";
-	public static final String StartLoopButtonString = "Start Loop";
-	public static final String EndLoopButtonString = "End Loop";
-	public static final String runButtonString = "Run";
-	public static final String StartFunctionButtonString = "Start Function";
-	public static final String EndFunctionButtonString = "End Function";
-	public static final String PrintButtonString = "Print";
-	public static final String CallFunctionButtonString = "Call Function";
-	public static final String RestartButtonString = "Restart";
+	public static final String VariableButtonString = "Candy";
+	public static final String StartIfButtonString = "Check Flavour";
+	public static final String EndIfButtonString = "End Check Flavour";
+	public static final String StartLoopButtonString = "Start Loopdeloop";
+	public static final String EndLoopButtonString = "End Loopdeloop";
+	public static final String runButtonString = "Tell Story";
+	public static final String StartFunctionButtonString = "Start Adventure";
+	public static final String EndFunctionButtonString = "End Adventure";
+	public static final String PrintButtonString = "Show Flavour";
+	public static final String CallFunctionButtonString = "Go On Adventure";
+	public static final String RestartButtonString = "New Story";
 	public static final String BackButtonString = "Back";
 	public static final String NextButtonString = "Next";
 	
@@ -59,7 +59,7 @@ public class View extends JFrame{
 	
 	public View()
 	{
-		setSize(1024,800);
+		setSize(1920,800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Candy - The Sweetest Programming Language For Kids!");
 		
@@ -197,7 +197,7 @@ public class View extends JFrame{
 	
 	public void insertVariable(String input1, String input2)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "candy " + input1 + " = " + input2 + "\n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "candy " + input1 + " is " + input2 + "\n\n");
 	}
 	
 	private boolean isAlphaNumeric(String input)
@@ -209,49 +209,49 @@ public class View extends JFrame{
 	
 	public void insertStartIf(String input1, String input2)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "IF "+input1+" IS EQUAL TO " + input2 + "\n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "If "+input1+" is the same flavour as " + input2 + "\n\n");
 		textPanelModifier += "\t";
 	}
 	
 	public void insertEndIf()
 	{
 		textPanelModifier = textPanelModifier.substring(0,textPanelModifier.length()-1);
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END IF \n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "End if \n\n");
 	}
 	
 	public void insertStartLoop(int num)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "LOOP " +  num + " TIMES\n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "Loopdeloop " +  num + " times\n\n");
 		textPanelModifier += "\t";
 	}
 	
 	public void insertEndLoop()
 	{
 		textPanelModifier = textPanelModifier.substring(0,textPanelModifier.length()-1);
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END LOOP \n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "End loopdeloop \n\n");
 	}
 	
 	public void insertStartFunction(String name)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "FUNCTION " + name + "\n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "Adventure " + name + "\n\n");
 		textPanelModifier += "\t";
 	}
 	
 	public void insertEndFunction()
 	{
 		textPanelModifier = textPanelModifier.substring(0,textPanelModifier.length()-1);
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END FUNCTION \n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "End adventure \n\n");
 	}
 	
 	public void insertPrint(String input)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "Print " + input + "\n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "Show flavour " + input + "\n\n");
 	}
 	
 	public void insertCallFunction(String input1)
 	{
 		
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "CALL " + input1 + " \n\n");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "Go on " + input1 + " adventure\n\n");
 	}
 	
 	public void restartPanel()
@@ -262,15 +262,21 @@ public class View extends JFrame{
 	
 	public void runCode()
 	{
+		currentResultsArea.setText("Results: \n\n");
 		
 		switch(currentPanelEnum)
 		{
-			case PAGE4:
+			case PAGE5:
 				tester.addVariableTest("bonbon", "chocolate");
 				break;
-			case PAGE7:
+			case PAGE9:
 				tester.addVariableTest("bonbon", "chocolate");
 				tester.addVariableTest("truffle", "chocolate");
+				break;
+			case PAGE12:
+				break;
+			case PAGE15:
+				tester.addFunctionNameTest("bedtime");
 				break;
 			
 		}
@@ -278,27 +284,48 @@ public class View extends JFrame{
 		String returnString = candyint.runCode();
 		tester.setVariables(candyint.getVariables());
 		tester.setFunctions(candyint.getFunctions());
+		
 		//Test case for printing variables in chapter 1, page 4
 		if(currentPanelEnum.equals(PanelPage.PAGE4)) {
 			if(!tester.printTest(returnString, "chocolate")) {
-				//TODO warning for ch 1
-				System.out.println("NO PRINT CH 1");
+				currentResultsArea.setText(currentResultsArea.getText() + "\n<<UH OH! Don't forget to print the 'chocolate' flavour!>>\n");
 			}
-			
-		}
-		if(!tester.runTests()) {
-			//TODO Print warning code is incorrect
-			//De-grayscale button
-			System.out.println("WRONG");
+			else
+			{
+				currentResultsArea.setText(currentResultsArea.getText() + "\n<<YAY! You did it!>>\n");
+			}
 		}
 		
+		if(currentPanelEnum.equals(PanelPage.PAGE12)) {
+			if(!tester.printMultipleTimesTest(returnString, "fudge", 5)) {
+				currentResultsArea.setText(currentResultsArea.getText() + "\n<<UH OH! Don't forget to print the 'fuge' flavour 5 times in a loop-dee-loop!>>\n");
+			}
+			else
+			{
+				currentResultsArea.setText(currentResultsArea.getText() + "\n<<YAY! You did it!>>\n");
+			}
+		}
 		
+		if(!!currentPanelEnum.equals(PanelPage.PAGE12))
+		{
+			if(!tester.runTests()) {
+				//De-grayscale button
+				currentResultsArea.setText(currentResultsArea.getText() + "\n<<UH OH! Check the previous pages for what to do next!>>\n");
+			}
+			else
+			{
+				currentResultsArea.setText(currentResultsArea.getText() + "\n<<YAY! You did it!>>\n");
+			}
+		}
 		
-		currentResultsArea.setText("Results: \n\n" + returnString);
+		tester.clear();
+		
+		currentResultsArea.setText(currentResultsArea.getText() + returnString);
 	}
 	
 	private void switchPanel(JPanel panel)
 	{
+		textPanelModifier = "";
 		remove(currentPanel);
 		currentPanel = panel;
 		

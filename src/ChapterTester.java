@@ -54,6 +54,11 @@ public class ChapterTester {
 		return false;
 	}
 	
+	public void clear() {
+		this.functionNameTests.clear();
+		this.variableTests.clear();
+	}
+	
 	public boolean printMultipleTimesTest(String programOutput, String expectedOutput, int numberOfTimes) {
 		String[] outputLines = programOutput.split("\n");
 		int freq = Collections.frequency(Arrays.asList(outputLines), expectedOutput);
