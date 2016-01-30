@@ -109,6 +109,14 @@ public class FunctionalButtonListener implements ActionListener{
 		{
 			view.restartPanel();
 		}
+		else if(src.getText().equals(View.BackButtonString))
+		{
+			view.changePanel(View.PanelPage.PAGE1);
+		}
+		else if(src.getText().equals(View.NextButtonString))
+		{
+			view.changePanel(View.PanelPage.STORY1);
+		}
 		else
 		{
 			System.out.println("Button error");

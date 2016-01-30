@@ -1,8 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -26,11 +30,14 @@ public class View extends JFrame{
 	public static final String PrintButtonString = "Print";
 	public static final String CallFunctionButtonString = "Call Function";
 	public static final String RestartButtonString = "Restart";
+	public static final String BackButtonString = "Back";
+	public static final String NextButtonString = "Next";
 	
 	public enum PanelPage
 	{
 		OPTIONS,
-		PAGE1
+		PAGE1,
+		STORY1
 	}
 	
 	public View()
@@ -241,14 +248,52 @@ public class View extends JFrame{
 	{
 		remove(currentPanel);
 		currentPanel = panel;
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(BorderLayout.CENTER, panel);
+		
+		JPanel buttonPanel = new JPanel();
+		JButton backButton = new JButton(BackButtonString);
+		backButton.addActionListener(new FunctionalButtonListener(this));
+		JButton nextButton = new JButton(NextButtonString);
+		nextButton.addActionListener(new FunctionalButtonListener(this));
+		
+		buttonPanel.add(backButton);
+		buttonPanel.add(nextButton);
+		
+		mainPanel.add(BorderLayout.SOUTH, buttonPanel);
+		
+		currentPanel = mainPanel;
+		
 		add(currentPanel);
+		
 		currentPanel.setVisible(true);
 		setVisible(true);
 	}
 	
-	private void setupStoryPage()
+	private void setupStoryPage(String imgPath)
 	{
 		JPanel panel = new JPanel();
+		
+		panel.setLayout(new BorderLayout());
+		
+		JPanel imgPanel = new JPanel();
+		
+		BufferedImage image = null;
+		
+		try {
+			 image = ImageIO.read(new File(imgPath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JLabel piclab = new JLabel(new ImageIcon(image));
+		imgPanel.add(piclab);
+		panel.add(BorderLayout.CENTER, imgPanel);
+		
+		switchPanel(panel);
 		
 		
 	}
@@ -264,6 +309,10 @@ public class View extends JFrame{
 			case PAGE1:
 				setupPage1();
 				currentPanelEnum = PanelPage.PAGE1;
+				break;
+			case STORY1:
+				setupStoryPage("pictures/Chapter 1 Next.jpg");
+				currentPanelEnum = PanelPage.STORY1;
 				break;
 			default:
 				setupPage1();
