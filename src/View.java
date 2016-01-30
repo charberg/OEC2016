@@ -1,8 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -28,11 +32,20 @@ public class View extends JFrame{
 	public static final String PrintButtonString = "Print";
 	public static final String CallFunctionButtonString = "Call Function";
 	public static final String RestartButtonString = "Restart";
+	public static final String BackButtonString = "Back";
+	public static final String NextButtonString = "Next";
 	
 	public enum PanelPage
 	{
 		OPTIONS,
-		PAGE1
+		PAGE1,
+		PAGE2,
+		PAGE3,
+		PAGE4,
+		PAGE5,
+		PAGE6,
+		PAGE7,
+		PAGE8
 	}
 	
 	public View()
@@ -78,7 +91,7 @@ public class View extends JFrame{
 		currentResultsArea = new JTextArea();
 		currentResultsArea.setEditable(false);
 		
-		setupPage1();
+		changePanel(PanelPage.PAGE1);
 		this.add(currentPanel);
 		
 		setVisible(true);
@@ -99,8 +112,10 @@ public class View extends JFrame{
 		
 	}
 	
-	private void setupPage1()
+	private void setupLevelPanel()
 	{
+		UIManager.put("control", new Color(200,200,255));
+		
 		JPanel page1 = new JPanel();
 		page1.setLayout(new BorderLayout());
 		
@@ -246,9 +261,57 @@ public class View extends JFrame{
 	{
 		remove(currentPanel);
 		currentPanel = panel;
+		
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(BorderLayout.CENTER, panel);
+		
+		JPanel buttonPanel = new JPanel();
+		JButton backButton = new JButton(BackButtonString);
+		backButton.addActionListener(new FunctionalButtonListener(this));
+		JButton nextButton = new JButton(NextButtonString);
+		nextButton.addActionListener(new FunctionalButtonListener(this));
+		
+		buttonPanel.add(backButton);
+		buttonPanel.add(nextButton);
+		
+		mainPanel.add(BorderLayout.SOUTH, buttonPanel);
+		
+		currentPanel = mainPanel;
+		
 		add(currentPanel);
+		
 		currentPanel.setVisible(true);
 		setVisible(true);
+	}
+	
+	private void setupStoryPage(String imgPath)
+	{
+		
+		UIManager.put("control", new Color(255,255,255));
+		
+		JPanel panel = new JPanel();
+		
+		panel.setLayout(new BorderLayout());
+		
+		JPanel imgPanel = new JPanel();
+		
+		BufferedImage image = null;
+		
+		try {
+			 image = ImageIO.read(new File(imgPath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JLabel piclab = new JLabel(new ImageIcon(image));
+		imgPanel.add(piclab);
+		panel.add(BorderLayout.CENTER, imgPanel);
+		
+		switchPanel(panel);
+		
+		
 	}
 	
 	public void changePanel(PanelPage newPanel)
@@ -260,11 +323,39 @@ public class View extends JFrame{
 				currentPanelEnum = PanelPage.OPTIONS;
 				break;
 			case PAGE1:
-				setupPage1();
+				setupStoryPage("pictures/Intro.jpg");
 				currentPanelEnum = PanelPage.PAGE1;
 				break;
+			case PAGE2:
+				setupStoryPage("pictures/Chapter 1 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE2;
+				break;
+			case PAGE3:
+				setupStoryPage("pictures/Chapter 1 Next.jpg");
+				currentPanelEnum = PanelPage.PAGE3;
+				break;
+			case PAGE4:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE4;
+				break;
+			case PAGE5:
+				setupStoryPage("pictures/Chapter 2 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE5;
+				break;
+			case PAGE6:
+				setupStoryPage("pictures/Chapter 2 Next.jpg");
+				currentPanelEnum = PanelPage.PAGE6;
+				break;
+			case PAGE7:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE7;
+				break;
+			case PAGE8:
+				setupStoryPage("pictures/Chapter 3 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE8;
+				break;
 			default:
-				setupPage1();
+				setupLevelPanel();
 				currentPanelEnum = PanelPage.PAGE1;
 		}
 	}
