@@ -45,7 +45,16 @@ public class View extends JFrame{
 		PAGE5,
 		PAGE6,
 		PAGE7,
-		PAGE8
+		PAGE8,
+		PAGE9,
+		PAGE10,
+		PAGE11,
+		PAGE12,
+		PAGE13,
+		PAGE14,
+		PAGE15,
+		PAGE16,
+		PAGE17
 	}
 	
 	public View()
@@ -358,32 +367,68 @@ public class View extends JFrame{
 				currentPanelEnum = PanelPage.PAGE1;
 				break;
 			case PAGE2:
-				setupStoryPage("pictures/Chapter 1 Start.jpg");
+				setupStoryPage("pictures/Creating Story.jpg");
 				currentPanelEnum = PanelPage.PAGE2;
 				break;
 			case PAGE3:
-				setupStoryPage("pictures/Chapter 1 Next.jpg");
+				setupStoryPage("pictures/Chapter 1 Start.jpg");
 				currentPanelEnum = PanelPage.PAGE3;
 				break;
 			case PAGE4:
-				setupLevelPanel();
+				setupStoryPage("pictures/Chapter 1 Next.jpg");
 				currentPanelEnum = PanelPage.PAGE4;
 				break;
 			case PAGE5:
-				setupStoryPage("pictures/Chapter 2 Start.jpg");
+				setupLevelPanel();
 				currentPanelEnum = PanelPage.PAGE5;
 				break;
 			case PAGE6:
-				setupStoryPage("pictures/Chapter 2 Next.jpg");
+				setupStoryPage("pictures/Chapter 2 Start.jpg");
 				currentPanelEnum = PanelPage.PAGE6;
 				break;
 			case PAGE7:
-				setupLevelPanel();
+				setupStoryPage("pictures/Chapter 2 Next.jpg");
 				currentPanelEnum = PanelPage.PAGE7;
 				break;
 			case PAGE8:
-				setupStoryPage("pictures/Chapter 3 Start.jpg");
+				setupStoryPage("pictures/Chapter 2 End.jpg");
 				currentPanelEnum = PanelPage.PAGE8;
+				break;
+			case PAGE9:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE9;
+				break;
+			case PAGE10:
+				setupStoryPage("pictures/Chapter 3 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE10;
+				break;
+			case PAGE11:
+				setupStoryPage("pictures/Chapter 3 Stop.jpg");
+				currentPanelEnum = PanelPage.PAGE11;
+				break;
+			case PAGE12:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE12;
+				break;
+			case PAGE13:
+				setupStoryPage("pictures/Chapter 4 Start.jpg");
+				currentPanelEnum = PanelPage.PAGE13;
+				break;
+			case PAGE14:
+				setupStoryPage("pictures/Chapter 4 Next.jpg");
+				currentPanelEnum = PanelPage.PAGE14;
+				break;
+			case PAGE15:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE15;
+				break;
+			case PAGE16:
+				setupStoryPage("pictures/End.jpg");
+				currentPanelEnum = PanelPage.PAGE16;
+				break;
+			case PAGE17:
+				setupLevelPanel();
+				currentPanelEnum = PanelPage.PAGE17;
 				break;
 			default:
 				setupLevelPanel();

@@ -134,6 +134,33 @@ public class FunctionalButtonListener implements ActionListener{
 				case PAGE8:
 					view.changePanel(View.PanelPage.PAGE7);
 					break;
+				case PAGE9:
+					view.changePanel(View.PanelPage.PAGE8);
+					break;
+				case PAGE10:
+					view.changePanel(View.PanelPage.PAGE9);
+					break;
+				case PAGE11:
+					view.changePanel(View.PanelPage.PAGE10);
+					break;
+				case PAGE12:
+					view.changePanel(View.PanelPage.PAGE11);
+					break;
+				case PAGE13:
+					view.changePanel(View.PanelPage.PAGE12);
+					break;
+				case PAGE14:
+					view.changePanel(View.PanelPage.PAGE13);
+					break;
+				case PAGE15:
+					view.changePanel(View.PanelPage.PAGE14);
+					break;
+				case PAGE16:
+					view.changePanel(View.PanelPage.PAGE15);
+					break;
+				case PAGE17:
+					view.changePanel(View.PanelPage.PAGE16);
+					break;
 			}
 		}
 		else if(src.getText().equals(View.NextButtonString))
@@ -160,6 +187,33 @@ public class FunctionalButtonListener implements ActionListener{
 					break;
 				case PAGE7:
 					view.changePanel(View.PanelPage.PAGE8);
+					break;
+				case PAGE8:
+					view.changePanel(View.PanelPage.PAGE9);
+					break;
+				case PAGE9:
+					view.changePanel(View.PanelPage.PAGE10);
+					break;
+				case PAGE10:
+					view.changePanel(View.PanelPage.PAGE11);
+					break;
+				case PAGE11:
+					view.changePanel(View.PanelPage.PAGE12);
+					break;
+				case PAGE12:
+					view.changePanel(View.PanelPage.PAGE13);
+					break;
+				case PAGE13:
+					view.changePanel(View.PanelPage.PAGE14);
+					break;
+				case PAGE14:
+					view.changePanel(View.PanelPage.PAGE15);
+					break;
+				case PAGE15:
+					view.changePanel(View.PanelPage.PAGE16);
+					break;
+				case PAGE16:
+					view.changePanel(View.PanelPage.PAGE17);
 					break;
 			}
 		}
