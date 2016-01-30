@@ -298,7 +298,7 @@ public class View extends JFrame{
 		
 		if(currentPanelEnum.equals(PanelPage.PAGE12)) {
 			if(!tester.printMultipleTimesTest(returnString, "fudge", 5)) {
-				currentResultsArea.setText(currentResultsArea.getText() + "\n<<UH OH! Don't forget to print the 'fuge' flavour 5 times in a loop-dee-loop!>>\n");
+				currentResultsArea.setText(currentResultsArea.getText() + "\n<<UH OH! Don't forget to print the 'fudge' flavour 5 times in a loop-dee-loop!>>\n");
 			}
 			else
 			{
@@ -306,7 +306,7 @@ public class View extends JFrame{
 			}
 		}
 		
-		if(!!currentPanelEnum.equals(PanelPage.PAGE12))
+		if(!currentPanelEnum.equals(PanelPage.PAGE12))
 		{
 			if(!tester.runTests()) {
 				//De-grayscale button
