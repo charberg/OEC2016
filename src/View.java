@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -9,29 +10,32 @@ public class View extends JFrame{
 	
 	private JPanel currentPanel;
 	private JTextArea currentTextArea;
+	private JTextArea currentResultsArea;
 	private String textPanelModifier;
+	public CandyInterpreter candyint;
+	public PanelPage currentPanelEnum;
 	
 	public static final String VariableButtonString = "Variable";
 	public static final String StartIfButtonString = "Start If";
 	public static final String EndIfButtonString = "End If";
 	public static final String StartLoopButtonString = "Start Loop";
 	public static final String EndLoopButtonString = "End Loop";
-	public static final String IsEqualButtonString = "Is Equal";
+	public static final String runButtonString = "Run";
 	public static final String StartFunctionButtonString = "Start Function";
 	public static final String EndFunctionButtonString = "End Function";
-	
-	private ArrayList<String> variableList;
+	public static final String PrintButtonString = "Print";
+	public static final String CallFunctionButtonString = "Call Function";
+	public static final String RestartButtonString = "Restart";
 	
 	public enum PanelPage
 	{
-		DEFAULT,
 		OPTIONS,
 		PAGE1
 	}
 	
 	public View()
 	{
-		setSize(800,800);
+		setSize(1024,800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Candy - The Sweetest Programming Language For Kids!");
 		
@@ -55,38 +59,27 @@ public class View extends JFrame{
 	            break;
 	        }
 	    }
+		UIManager.put("control", new Color(200,200,255));
+		UIManager.put("nimbusBase", new Color(255,0,0));
+		UIManager.put("TextArea.font", new Font("segoe print", Font.BOLD, 14));
 		
-		variableList = new ArrayList<String>();
 		textPanelModifier = "";
+		
+		candyint = new CandyInterpreter();
+		
+		currentPanelEnum = PanelPage.PAGE1;
 		
 		currentPanel = new JPanel();
 		currentTextArea = new JTextArea();
-		currentTextArea.enableInputMethods(false);
+		currentTextArea.setEditable(false);
+		
+		currentResultsArea = new JTextArea();
+		currentResultsArea.setEditable(false);
 		
 		setupPage1();
 		this.add(currentPanel);
 		
 		setVisible(true);
-	}
-	
-	private void setupDefaultPanel()
-	{
-		
-		JPanel defaultPanel = new JPanel();
-		defaultPanel.setLayout(new BorderLayout());
-		
-		JButton button1 = new JButton("Options");
-		button1.setBounds(30,30,30,30);
-		
-		JLabel label1 = new JLabel("NO CONTENT");
-		
-		ButtonListener listener1 = new ButtonListener(this);
-		button1.addActionListener(listener1);
-		
-		defaultPanel.add(BorderLayout.SOUTH, button1);
-		defaultPanel.add(BorderLayout.NORTH, label1);
-		
-		switchPanel(defaultPanel);
 	}
 	
 	private void setupOptionsPanel()
@@ -107,9 +100,18 @@ public class View extends JFrame{
 		page1.setLayout(new BorderLayout());
 		
 		currentTextArea = new JTextArea();
-		currentTextArea.enableInputMethods(false);
+		currentTextArea.setEditable(false);
 		
-		page1.add(BorderLayout.CENTER, currentTextArea);
+		currentResultsArea = new JTextArea();
+		currentResultsArea.setText("Results:\n\n");
+		currentResultsArea.setEditable(false);
+		
+		JPanel textPanel = new JPanel();
+		textPanel.setLayout(new BoxLayout(textPanel,BoxLayout.PAGE_AXIS));
+		textPanel.add(currentTextArea);
+		textPanel.add(currentResultsArea);
+		
+		page1.add(BorderLayout.CENTER, textPanel);
 		
 		JButton varButton = new JButton(VariableButtonString);
 		varButton.addActionListener(new FunctionalButtonListener(this));
@@ -126,14 +128,23 @@ public class View extends JFrame{
 		JButton endLoopButton = new JButton(EndLoopButtonString);
 		endLoopButton.addActionListener(new FunctionalButtonListener(this));
 		
-		JButton isEqualButton = new JButton(IsEqualButtonString);
-		isEqualButton.addActionListener(new FunctionalButtonListener(this));
+		JButton runButton = new JButton(runButtonString);
+		runButton.addActionListener(new FunctionalButtonListener(this));
 		
 		JButton startFunctionButton = new JButton(StartFunctionButtonString);
 		startFunctionButton.addActionListener(new FunctionalButtonListener(this));
 		
 		JButton endFunctionButton = new JButton(EndFunctionButtonString);
 		endFunctionButton.addActionListener(new FunctionalButtonListener(this));
+		
+		JButton printButton = new JButton(PrintButtonString);
+		printButton.addActionListener(new FunctionalButtonListener(this));
+		
+		JButton callFunctionButton = new JButton(CallFunctionButtonString);
+		callFunctionButton.addActionListener(new FunctionalButtonListener(this));
+		
+		JButton restartButton = new JButton(RestartButtonString);
+		restartButton.addActionListener(new FunctionalButtonListener(this));
 		
 		JPanel bottomPannel = new JPanel();
 		
@@ -142,9 +153,12 @@ public class View extends JFrame{
 		bottomPannel.add(endIfButton);
 		bottomPannel.add(startLoopButton);
 		bottomPannel.add(endLoopButton);
-		bottomPannel.add(isEqualButton);
 		bottomPannel.add(startFunctionButton);
 		bottomPannel.add(endFunctionButton);
+		bottomPannel.add(callFunctionButton);
+		bottomPannel.add(printButton);
+		bottomPannel.add(runButton);
+		bottomPannel.add(restartButton);
 		
 		page1.add(BorderLayout.SOUTH, bottomPannel);
 		
@@ -152,22 +166,9 @@ public class View extends JFrame{
 		
 	}
 	
-	public void insertVariable()
+	public void insertVariable(String input1, String input2)
 	{
-		boolean stopLoop = false;
-		String input = null;
-		
-		while(!stopLoop)
-		{
-			input = (String)JOptionPane.showInputDialog(this, "Please enter the name of your candy:", "New Variable", JOptionPane.PLAIN_MESSAGE);
-			if(!Character.isDigit(input.charAt(0)) && !variableList.contains(input))
-			{
-				stopLoop = true;
-			}
-		}
-		
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "candy " + input + " \n\n");
-		variableList.add(input);
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "candy " + input1 + " = " + input2 + "\n\n");
 	}
 	
 	private boolean isAlphaNumeric(String input)
@@ -177,13 +178,8 @@ public class View extends JFrame{
 		return status;
 	}
 	
-	public void insertStartIf()
+	public void insertStartIf(String input1, String input2)
 	{
-
-		String input1 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
-		
-		String input2 = (String)JOptionPane.showInputDialog(this, "What variable do you want to compare?:", "Input", JOptionPane.PLAIN_MESSAGE, null, variableList.toArray(), "");
-		
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "IF "+input1+" IS EQUAL TO " + input2 + "\n\n");
 		textPanelModifier += "\t";
 	}
@@ -194,9 +190,9 @@ public class View extends JFrame{
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END IF \n\n");
 	}
 	
-	public void insertStartLoop()
+	public void insertStartLoop(int num)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "START LOOP ");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "LOOP " +  num + " TIMES\n\n");
 		textPanelModifier += "\t";
 	}
 	
@@ -206,9 +202,9 @@ public class View extends JFrame{
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END LOOP \n\n");
 	}
 	
-	public void insertStartFunction()
+	public void insertStartFunction(String name)
 	{
-		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "START FUNCTION ");
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "FUNCTION " + name + "\n\n");
 		textPanelModifier += "\t";
 	}
 	
@@ -216,6 +212,29 @@ public class View extends JFrame{
 	{
 		textPanelModifier = textPanelModifier.substring(0,textPanelModifier.length()-1);
 		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "END FUNCTION \n\n");
+	}
+	
+	public void insertPrint(String input)
+	{
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "Print " + input + "\n\n");
+	}
+	
+	public void insertCallFunction(String input1)
+	{
+		
+		currentTextArea.setText(currentTextArea.getText() + textPanelModifier + "CALL " + input1 + " \n\n");
+	}
+	
+	public void restartPanel()
+	{
+		candyint = new CandyInterpreter();
+		changePanel(currentPanelEnum);
+	}
+	
+	public void runCode()
+	{
+		String returnString = candyint.runCode();
+		currentResultsArea.setText("Results: \n\n" + returnString);
 	}
 	
 	private void switchPanel(JPanel panel)
@@ -231,16 +250,17 @@ public class View extends JFrame{
 	{
 		switch(newPanel)
 		{
-			case DEFAULT:
-				setupDefaultPanel();
-				break;
 			case OPTIONS:
 				setupOptionsPanel();
+				currentPanelEnum = PanelPage.OPTIONS;
 				break;
 			case PAGE1:
-				
+				setupPage1();
+				currentPanelEnum = PanelPage.PAGE1;
+				break;
 			default:
-				setupDefaultPanel();
+				setupPage1();
+				currentPanelEnum = PanelPage.PAGE1;
 		}
 	}
 	

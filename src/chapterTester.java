@@ -10,7 +10,6 @@ public class chapterTester {
 	
 	private HashMap<String, String> variableTests;
 	private HashMap<String, String> functionNameTests;
-	private HashMap<String, Integer> functionArgTests;
 
 	
 	public chapterTester() {
@@ -20,7 +19,6 @@ public class chapterTester {
 		
 		variableTests = new HashMap<String, String>();
 		functionNameTests = new HashMap<String, String>();
-		functionArgTests = new HashMap<String, Integer>();
 		
 	}
 	
@@ -84,11 +82,6 @@ public class chapterTester {
 			}
 		}
 		
-		for(String testVar : variableTests.keySet()) {
-			if(!variables.containsKey(testVar) || !(functions.get(testVar) == (functionArgTests.get(testVar)))) {
-				return false;
-			}
-		}
 		
 		return true;
 		

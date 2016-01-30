@@ -8,12 +8,12 @@ public class CandyInterpreter {
 	
 	private int tabIndex = 0;
 	private HashMap<String, String> variables;
-	private HashMap<String, Integer> functions;	//Int represents number of variables
+	private ArrayList<String> functions;	//Int represents number of variables
 
 	public CandyInterpreter() {
 		
 		variables = new HashMap<String, String>();
-		functions = new HashMap<String, Integer>();
+		functions = new ArrayList<String>();
 		
 		//Wipe the existing output file
 		File file = new File(OUTPUTFILE);
@@ -66,7 +66,8 @@ public class CandyInterpreter {
 	}
 
 	public String runCode(){
-		ProcessBuilder pythonCode = new ProcessBuilder("python ", OUTPUTFILE);
+		this.writeToFile("print \"success\"");
+		ProcessBuilder pythonCode = new ProcessBuilder("python", OUTPUTFILE);
 		Process python = null;
 		String input = "";
 		try {
@@ -81,6 +82,9 @@ public class CandyInterpreter {
 				while(temp != null) {
 					temp = in.readLine();
 					if(temp != null) {
+						if (temp.equals("success")){
+							return input;
+						}
 						input = input + temp + "\n";
 					}
 				}
@@ -88,7 +92,7 @@ public class CandyInterpreter {
 				e.printStackTrace();
 			}
 		}
-		return input;
+		return null;
 	}
 	
 	public void endIf() {
@@ -104,20 +108,15 @@ public class CandyInterpreter {
 		tabIndex--;
 	}
 	
-	public boolean writeFunction(String functionName, ArrayList<String> variables) {
+	public boolean writeFunction(String functionName) {
 		
-		if(functionName.contains(functionName)) {	//Do not allow over-writing functions
+		if(functions.contains(functionName)) {	//Do not allow over-writing functions
 			return false;
 		}
 		
-		functions.put(functionName, variables.size());
+		functions.add(functionName);
 		
-		String vars = "";
-		if(variables != null) {
-			vars = variables.toString().substring(1, variables.size() - 1);
-		}
-		
-		writeToFile("def " + functionName + "(" + vars + ") :");
+		writeToFile("def " + functionName + "() :");
 		tabIndex++;
 		
 		return false;
@@ -128,14 +127,9 @@ public class CandyInterpreter {
 		tabIndex--;
 	}
 	
-	public void callFunction(String functionName, ArrayList<String> variables) {
+	public void callFunction(String functionName) {
 		
-		String vars = "";
-		if(variables != null) {
-			vars = variables.toString().substring(1, variables.size() - 1);
-		}
-		
-		writeToFile(functionName + "(" + vars + ")");
+		writeToFile(functionName + "()");
 	}
 	
 	public void writeComment(String comment) {
@@ -146,9 +140,7 @@ public class CandyInterpreter {
 		return variables;
 	}
 	
-	public HashMap<String, Integer> getFunctions() {
+	public ArrayList<String> getFunctions() {
 		return functions;
 	}
-	
-	
 }

@@ -22,7 +22,7 @@ public class ButtonListener implements ActionListener{
 		else if(src.getText() == "Back")
 		{
 			System.out.println("BACK TO DEFAULT");
-			view.changePanel(View.PanelPage.DEFAULT);
+			view.changePanel(View.PanelPage.PAGE1);
 		}
 		else
 		{
